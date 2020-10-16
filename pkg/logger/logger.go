@@ -18,6 +18,9 @@ func SetLogger() *Logger {
 }
 
 func init() {
-	Logger, _ := zap.NewDevelopment()
+	Logger, err := zap.NewDevelopment()
+	if err != nil {
+		panic(err)
+	}
 	zap.ReplaceGlobals(Logger)
 }
