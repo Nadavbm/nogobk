@@ -52,4 +52,4 @@ use shorter names and password to ease the environment setup
 
 ### playlist
 
-allthemwitches, foo manchu, ufomammuth, melvins (add more)
+relapse records, allthemwitches, foo manchu, ufomammuth, melvins (add more)
