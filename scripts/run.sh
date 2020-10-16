@@ -2,7 +2,7 @@
 source env.sh
 
 docker-compose down
-docker-compose up -d pgsql
+docker-compose up -d database
 
 sleep 10
 
