@@ -1,11 +1,23 @@
 package main
 
 import (
-	"fmt"
+	_ "github.com/lib/pq"
+
+	"github.com/nadavbm/nogobk/api/dat"
+	"github.com/nadavbm/nogobk/api/server"
+	"github.com/nadavbm/nogobk/pkg/logger"
 )
 
 func main() {
-	//l := logger.SetLogger()
+	l := logger.SetLogger()
 
-	fmt.Println("Hello")
+	dat.InitDB()
+
+	s := server.NewServer(*l, ":8081")
+
+	err := s.Run()
+	if err != nil {
+		panic(err)
+	}
+
 }

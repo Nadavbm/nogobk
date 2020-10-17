@@ -18,6 +18,10 @@ type UserMapper struct {
 	txn *driver.Tx
 }
 
-func GetUserId() {
+func CreateUser() {
+
+}
+
+func GetUserById() {
 
 }

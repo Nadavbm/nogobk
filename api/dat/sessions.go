@@ -17,6 +17,10 @@ type SessionMapper struct {
 	txn *driver.Tx
 }
 
+func CreateSession() {
+
+}
+
 func GetSessionByToken() {
 
 }
