@@ -48,10 +48,12 @@ func (s *Server) Run() error {
 func CreateApiRouter(l logger.Logger) (*mux.Router, error) {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/profile/{id}", profileHandler).Methods("GET")
+	r.HandleFunc("/", rootHandler).Methods("GET")
+	r.HandleFunc("/login", loginHandler).Methods("POST", "GET")
 	r.HandleFunc("/signup", signupHandler).Methods("POST", "GET")
-	r.HandleFunc("/", loginHandler).Methods("POST", "GET")
+	r.HandleFunc("/profile/{id}", profileHandler).Methods("GET")
 	r.HandleFunc("/logout", logoutHandler)
 
+	http.Handle("/", r)
 	return r, nil
 }
