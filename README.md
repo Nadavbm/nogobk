@@ -22,7 +22,7 @@ use shorter names and password to ease the environment setup
 
 ### roadmap
 
-- initial: create docker-compose, directory structs, environment launch script, Makefile
+- initial: create docker-compose, directory structs, environment launch script, Makefile (Done)
 
 - dev environment: create dev logger for environment, env package to use environment variable (db connect, static and tempalte directories)
 
