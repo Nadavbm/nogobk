@@ -4,8 +4,8 @@ services:
   nogobk:
     build: '../.'
     environment:
-      - "DATABASE_nogobk"
-      - "DATABASE_PASSWORD=N0g0b@ck"
+      - "DATABASE_USER=nogobk"
+      - "DATABASE_PASSWORD=N0g0bAck"
       - "DATABASE_DB=nogobk"
       - "DATABASE_PORT=5432"
       - "DATABASE_HOST=database"
@@ -20,7 +20,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - "DATABASE_nogobk"
-      - "DATABASE_PASSWORD=N0g0b@ck"
-      - "DATABASE_DB=nogobk"
+      - "POSTGRES_USER=nogobk"
+      - "POSTGRES_PASSWORD=N0g0bAck"
+      - "POSTGRES_DB=nogobk"
     restart: unless-stopped
