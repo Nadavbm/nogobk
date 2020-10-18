@@ -20,6 +20,6 @@ func signupHandler(ctx *Context) {
 
 	fmt.Println("signup handler after unmarshal:", s)
 
-	fmt.Println("dat user:", &ctx.Users)
+	fmt.Println("dat user:", &ctx.User)
 
 }
