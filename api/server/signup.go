@@ -1,10 +1,25 @@
 package server
 
-import (
-	"fmt"
-	"net/http"
-)
+import "fmt"
 
-func signupHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "signup handler\nurl path: %s\n", r.URL.Path[1:])
+type SignUp struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Confirm  string `json:"confirm"`
+}
+
+func signupHandler(ctx *Context) {
+	fmt.Println("in login handler:", ctx)
+	var s SignUp
+
+	err := ctx.RequestUnmarshal(&s)
+	if err != nil {
+		return
+	}
+
+	fmt.Println("signup handler after unmarshal:", s)
+
+	fmt.Println("dat user:", &ctx.Users)
+
 }

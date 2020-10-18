@@ -14,9 +14,9 @@ type Server struct {
 	HTTPServer *http.Server
 }
 
-func NewServer(l logger.Logger, listenAddress string) *Server {
+func NewServer(l *logger.Logger, listenAddress string) *Server {
 	s := &Server{
-		Logger: &l,
+		Logger: l,
 	}
 
 	r, err := CreateApiRouter(l)
@@ -45,13 +45,13 @@ func (s *Server) Run() error {
 	return nil
 }
 
-func CreateApiRouter(l logger.Logger) (*mux.Router, error) {
+func CreateApiRouter(l *logger.Logger) (*mux.Router, error) {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", rootHandler).Methods("GET")
-	r.HandleFunc("/login", loginHandler).Methods("POST", "GET")
-	r.HandleFunc("/signup", signupHandler).Methods("POST", "GET")
-	r.HandleFunc("/profile/{id}", profileHandler).Methods("GET")
+	r.HandleFunc("/login", ContextHandler(l, loginHandler)).Methods("POST", "GET")
+	r.HandleFunc("/signup", ContextHandler(l, signupHandler)).Methods("POST", "GET")
+	r.HandleFunc("/profile/{id}", ContextHandler(l, profileHandler)).Methods("GET")
 	r.HandleFunc("/logout", logoutHandler)
 
 	http.Handle("/", r)

@@ -1,7 +1,6 @@
 package dat
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 
@@ -33,15 +32,6 @@ func InitDB() {
 		logger.Panic("could not run db migrations", zap.Error(err))
 	}
 	logger.Info("db migration completed")
-
-	ctx := context.Background()
-	tx, err := db.BeginTx(ctx, nil)
-	_, err = tx.ExecContext(ctx, "INSERT INTO pets (name, species) VALUES ('Fido', 'dog'), ('Albert', 'cat')")
-	if err != nil {
-		// Incase we find any error in the query execution, rollback the transaction
-		tx.Rollback()
-		return
-	}
 }
 
 func GetDBConnString() string {

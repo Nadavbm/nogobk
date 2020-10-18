@@ -14,7 +14,7 @@ func main() {
 	dat.InitDB()
 
 	l.Info("starting server on port 8081")
-	s := server.NewServer(*l, ":8081")
+	s := server.NewServer(l, ":8081")
 
 	err := s.Run()
 	if err != nil {

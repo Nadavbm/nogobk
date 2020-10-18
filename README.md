@@ -22,11 +22,11 @@ use shorter names and password to ease the environment setup
 
 ### roadmap
 
-- transaction and context: prepare for using database to handler context
+- transaction and context: prepare for using database to handler context (not completed)
 
 - handlers: set http handlers for `/` default redirecting, next handlers: `/login` (if not authenticated), `/signup` (if sumbit form from `/`) and `/profile/{user}` (if user authenticated redirect by user `id`)
 
-- database: create read\write user\session from\to tables in mapper
+- database: create read\write user\session from\to tables in mapper (first simple, then start use context)
 
 - create signup endpoint: allow signup via curl, set a signup form that send json `{name: "", email: "", password:""}`, write to `users` table in bcrypt
 
