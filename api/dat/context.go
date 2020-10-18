@@ -1,23 +1,25 @@
 package dat
 
+import (
+	"database/sql"
+)
+
 type Context struct {
-	Txn      *Transaction
+	Txn      *sql.Tx
 	Users    *UserMapper
 	Sessions *SessionMapper
 }
 
 func NewDatabaseContext() (*Context, error) {
-	m := &DbMap{}
-
-	t, err := m.BeginTxn()
+	txn, err := db.Begin()
 	if err != nil {
 		return nil, err
 	}
 
 	c := Context{
-		Txn:      t,
-		Users:    &UserMapper{},
-		Sessions: &SessionMapper{},
+		Txn:      txn,
+		Users:    &UserMapper{txn: txn},
+		Sessions: &SessionMapper{txn: txn},
 	}
 	return &c, nil
 }

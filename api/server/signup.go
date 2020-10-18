@@ -1,6 +1,8 @@
 package server
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type SignUp struct {
 	Name     string `json:"name"`
@@ -19,7 +21,7 @@ func signupHandler(ctx *Context) {
 	}
 
 	fmt.Println("signup handler after unmarshal:", s)
-
-	fmt.Println("dat user:", &ctx.User)
+	//ctx.User, err = ctx.Users.CreateUser(l, s.Name, s.Email, s.Password)
+	fmt.Println("dat user:", ctx.User)
 
 }

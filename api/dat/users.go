@@ -23,7 +23,7 @@ type UserMapper struct {
 }
 
 // CreateUser will create user in the database from a request handler in /signup
-func (m *UserMapper) CreateUser(l *logger.Logger, n, e, p string) {
+func (m *UserMapper) CreateUser(l *logger.Logger, n, e, p string) (*User, error) {
 	u := &User{
 		Name:     n,
 		Email:    e,
@@ -37,7 +37,7 @@ func (m *UserMapper) CreateUser(l *logger.Logger, n, e, p string) {
 		l.Info("could not execute in database:", zap.String("query:", query))
 	}
 	l.Info("execute in database:", zap.String("query:", query))
-
+	return u, nil
 }
 
 // GetUserByEmail will be used by /login to get to user login credentials

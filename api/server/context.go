@@ -14,14 +14,14 @@ import (
 )
 
 type Context struct {
+	*http.Request
 	Writer  http.ResponseWriter
-	Request *http.Request
 	RBody   []byte
 	Log     *logger.Logger
 	ReqTime time.Time
 	User    *dat.User
 	Session *dat.Session
-	Context *dat.Context
+	dat.Context
 }
 
 type CtxHandler func(ctx *Context)
@@ -46,13 +46,13 @@ func NewRequestContext(l *logger.Logger, w http.ResponseWriter, r *http.Request)
 	return &ctx
 }
 
-func (c *Context) GetContext() error {
+func (c *Context) GetDBContext() error {
 	ctx, err := dat.NewDatabaseContext()
 	if err != nil {
 		return err
 	}
 
-	c.Context = ctx
+	c.Context = *ctx
 	return nil
 }
 
@@ -61,9 +61,18 @@ func ContextHandler(l *logger.Logger, h CtxHandler) http.HandlerFunc {
 		fmt.Println("context handler:", h)
 		ctx := NewRequestContext(l, w, r)
 
+		/*
+			err := ctx.GetDBContext()
+			if err != nil {
+				l.Error("fail to get db context:", zap.Error(err))
+				return
+			}
+		*/
+
 		ctx.Request.ParseForm()
 
 		fmt.Println("handler context body", ctx)
+
 		h(ctx)
 	}
 }

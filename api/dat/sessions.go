@@ -1,7 +1,7 @@
 package dat
 
 import (
-	"database/sql/driver"
+	"database/sql"
 	"time"
 )
 
@@ -14,7 +14,7 @@ type Session struct {
 }
 
 type SessionMapper struct {
-	txn *driver.Tx
+	txn *sql.Tx
 }
 
 func CreateSession() {
