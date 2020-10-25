@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"text/template"
 
 	"github.com/gorilla/mux"
 	"github.com/nadavbm/nogobk/pkg/logger"
@@ -13,6 +14,8 @@ type Server struct {
 	Mux        *http.ServeMux
 	HTTPServer *http.Server
 }
+
+var tpl *template.Template
 
 func NewServer(l *logger.Logger, listenAddress string) *Server {
 	s := &Server{

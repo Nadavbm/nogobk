@@ -2,7 +2,6 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -41,8 +40,6 @@ func NewRequestContext(l *logger.Logger, w http.ResponseWriter, r *http.Request)
 		ReqTime: time.Now(),
 		RBody:   b,
 	}
-
-	fmt.Println("the context request:", &ctx.Request, "\nthe request body:", &ctx.Request.Body, "\nthe request URL:", &ctx.Request.URL, "\nrequest context:", ctx.Request.Context())
 	return &ctx
 }
 
@@ -58,7 +55,6 @@ func (c *Context) GetDBContext() error {
 
 func ContextHandler(l *logger.Logger, h CtxHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("context handler:", h)
 		ctx := NewRequestContext(l, w, r)
 
 		/*
@@ -71,8 +67,6 @@ func ContextHandler(l *logger.Logger, h CtxHandler) http.HandlerFunc {
 
 		ctx.Request.ParseForm()
 
-		fmt.Println("handler context body", ctx)
-
 		h(ctx)
 	}
 }
@@ -84,6 +78,6 @@ func (c *Context) RequestUnmarshal(j interface{}) error {
 	if err == io.EOF {
 		return err
 	}
-	fmt.Println("unmarshal request body:", j)
+
 	return err
 }

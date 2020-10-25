@@ -2,6 +2,10 @@ package server
 
 import (
 	"fmt"
+
+	"github.com/nadavbm/nogobk/api/dat"
+
+	"go.uber.org/zap"
 )
 
 type SignUp struct {
@@ -12,7 +16,8 @@ type SignUp struct {
 }
 
 func signupHandler(ctx *Context) {
-	fmt.Println("in login handler:", ctx)
+	l := ctx.Log
+
 	var s SignUp
 
 	err := ctx.RequestUnmarshal(&s)
@@ -20,8 +25,18 @@ func signupHandler(ctx *Context) {
 		return
 	}
 
-	fmt.Println("signup handler after unmarshal:", s)
-	//ctx.User, err = ctx.Users.CreateUser(l, s.Name, s.Email, s.Password)
-	fmt.Println("dat user:", ctx.User)
+	u := dat.User{
+		Name:     s.Name,
+		Email:    s.Email,
+		Password: s.Password,
+	}
+	err = u.CreateUsers(l)
+	if err != nil {
+		l.Info("there was an error while creating a user", zap.Error(err))
+	}
+	l.Info("user created", zap.String("with email address - ", u.Email))
+
+	// html template
+	fmt.Fprintf(ctx.Writer, "signup handler\nurl path: %s\n", ctx.Request.URL.Path[1:])
 
 }

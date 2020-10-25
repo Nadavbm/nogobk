@@ -54,17 +54,15 @@ IF EXISTS(SELECT * FROM migrations WHERE name = 'sessions') THEN RETURN;
 END IF;
 
 CREATE TABLE sessions (
-	userid INTEGER,
+	userid INTEGER NOT NULL,
 	created  TIMESTAMP DEFAULT NOW(), 
 	token	text,
 	csrf	text,
-	expires TIMESTAMP,
-	CONSTRAINT fk_user
-	   FOREIGN KEY(userid) 
-	   REFERENCES users(id)
+	expires TIMESTAMP
 );
 
--- by alter table: ALTER TABLE sessions ADD CONSTRAINT fk_user FOREIGN KEY (userid) REFERENCES users (id);
+-- by alter table: 
+ALTER TABLE sessions ADD CONSTRAINT fk_user FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE;
 
 INSERT INTO migrations (name) VALUES ('sessions');
 

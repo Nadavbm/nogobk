@@ -18,8 +18,8 @@ func NewDatabaseContext() (*Context, error) {
 
 	c := Context{
 		Txn:      txn,
-		Users:    &UserMapper{txn: txn},
-		Sessions: &SessionMapper{txn: txn},
+		Users:    &UserMapper{Txn: txn},
+		Sessions: &SessionMapper{Txn: txn},
 	}
 	return &c, nil
 }
