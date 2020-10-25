@@ -29,6 +29,12 @@ func loginHandler(ctx *Context) {
 		l.Info("failed to get user by email: ", zap.Error(err))
 	}
 
+	err = u.Authenticate(l, c.Email, c.Password)
+	if err != nil {
+		l.Info("failed to authenticate user", zap.String("email:", u.Email))
+		return
+	}
+
 	expire := time.Now()
 	expire = expire.Add(3 * time.Minute)
 	s := dat.Session{
