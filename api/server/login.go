@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
+	"log"
 	"net/http"
-	"time"
 
 	"github.com/nadavbm/nogobk/api/dat"
 	"go.uber.org/zap"
@@ -35,20 +35,44 @@ func loginHandler(ctx *Context) {
 		return
 	}
 
-	expire := time.Now()
-	expire = expire.Add(3 * time.Minute)
-	s := dat.Session{
-		UserId:  u.Id,
-		Token:   "sometoken",
-		Csrf:    "csrf token",
-		Expires: expire,
-	}
-
-	err = s.CreateSession(l)
+	store, err := dat.NewCookieStore(l, []byte("nogobk-secret-key"))
+	fmt.Println("store:", store)
 	if err != nil {
-		l.Info("failed to create session in database:", zap.Error(err))
+		l.Info("could not set new cookie store", zap.Error(err))
+	}
+	defer store.Close()
+
+	// get session from user
+	session, err := store.Get(ctx.Request, "nogobk-session-key")
+	fmt.Println("session:", session)
+	if err != nil {
+		log.Fatalf(err.Error())
 	}
 
+	//userid := u.Id
+	// using cookie store in db
+	session.Values["nogobkfoo"] = "nogobkbar"
+
+	if err = session.Save(ctx.Request, ctx.Writer); err != nil {
+		l.Info("could not save session in cookie store: ", zap.Error(err))
+	}
+
+	// initialize session in db cookie store
+	/*
+		expire := time.Now()
+		expire = expire.Add(3 * time.Minute)
+		s := dat.Session{
+			UserId:  u.Id,
+			Token:   "sometoken",
+			Csrf:    "csrf token",
+			Expires: expire,
+		}
+
+		err = s.CreateSession(l)
+		if err != nil {
+			l.Info("failed to create session in database:", zap.Error(err))
+		}
+	*/
 	l.Info("new user login", zap.String("email:", u.Email))
 
 	// html template
