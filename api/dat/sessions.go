@@ -15,10 +15,6 @@ type Session struct {
 	Expires time.Time `db:"expires"`
 }
 
-type SessionMapper struct {
-	Txn *sql.Tx
-}
-
 func (s *Session) CreateSession(l *logger.Logger) error {
 	conn := GetDBConnString()
 	db, err := sql.Open("postgres", conn)
